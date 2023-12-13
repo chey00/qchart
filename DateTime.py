@@ -51,6 +51,11 @@ class DateTime(QChartView):
 
         self.date_time_axis.setRange(start_time, current_time)
 
-# Übungen
-# 3) Erstellen Sie einen Slot add_random_value, welcher die Zufallszahlen mit der aktuellen Uhrzeit
-#    der Serie aus 1) hinzufügt.
+    @pyqtSlot(int)
+    def add_random_value(self, value):
+        current_time = QDateTime.currentDateTime()
+        start_time = current_time.addSecs(-30)
+
+        self.random_series.append(current_time.toMSecsSinceEpoch(), value)
+
+        self.date_time_axis.setRange(start_time, current_time)

@@ -1,16 +1,19 @@
 import random
 
-from PyQt6.QtCore import QTimer, pyqtSlot
+from PyQt6.QtCore import QTimer, pyqtSlot, pyqtSignal
 from PyQt6.QtWidgets import QWidget, QSlider, QHBoxLayout, QGridLayout, QLabel
 
 from DateTime import DateTime
 
 
 class CentralWidget(QWidget):
+    send_random = pyqtSignal(int)
+
     def __init__(self, parent=None):
         super().__init__(parent)
 
         self.datetime = DateTime(parent)
+        self.send_random.connect(self.datetime.add_random_value)
 
         self.slider = QSlider()
         self.slider.setRange(-5, 5)
@@ -31,4 +34,4 @@ class CentralWidget(QWidget):
     def generate_random(self):
         random_value = random.randrange(-5, 6)
 
-        print(random_value)
+        self.send_random.emit(random_value)
