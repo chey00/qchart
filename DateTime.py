@@ -45,3 +45,10 @@ class DateTime(QChartView):
         self.series.append(current_time.toMSecsSinceEpoch(), value)
 
         self.date_time_axis.setRange(start_time, current_time)
+
+# Übungen
+# 1) Fügen Sie in der Klasse DateTime eine zweite Series hinzu. Die
+#    Serie trägt den Anzeigenamen "Zufallszahlen".
+# 2) Erstellen Sie einen QTimer, welcher alle 10 Sekunden Zufallszahlen zwischen -5 und 5 generiert.
+# 3) Erstellen Sie einen Slot add_random_value, welcher die Zufallszahlen mit der aktuellen Uhrzeit
+#    der Serie aus 1) hinzufügt.
