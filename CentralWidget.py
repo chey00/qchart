@@ -1,3 +1,6 @@
+import random
+
+from PyQt6.QtCore import QTimer, pyqtSlot
 from PyQt6.QtWidgets import QWidget, QSlider, QHBoxLayout, QGridLayout, QLabel
 
 from DateTime import DateTime
@@ -19,3 +22,13 @@ class CentralWidget(QWidget):
         layout.addWidget(self.slider)
 
         self.setLayout(layout)
+
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.generate_random)
+        self.timer.start(1 * 1000)
+
+    @pyqtSlot()
+    def generate_random(self):
+        random_value = random.randrange(-5, 6)
+
+        print(random_value)
