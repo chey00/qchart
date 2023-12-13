@@ -14,6 +14,7 @@ class DateTime(QChartView):
         chart = QChart()
         chart.setTitle("Die wunderbare Welt der Mathematik")
         chart.addSeries(self.series)
+        chart.addSeries(self.random_series)
 
         self.date_time_axis = QDateTimeAxis()
         self.date_time_axis.setFormat("d.MM hh:mm")
