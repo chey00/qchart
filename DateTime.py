@@ -14,10 +14,10 @@ class DateTime(QChartView):
         self.random_series = QLineSeries()
         self.random_series.setName("Random Values")
 
-        chart = QChart()
-        chart.setTitle("Zeit-Werte-Diagramme mit QChart")
-        chart.addSeries(self.series)
-        chart.addSeries(self.random_series)
+        self.chart = QChart()
+        self.chart.setTitle("Zeit-Werte-Diagramme mit QChart")
+        self.chart.addSeries(self.series)
+        self.chart.addSeries(self.random_series)
 
         self.date_time_axis = QDateTimeAxis()
         self.date_time_axis.setFormat("hh:mm:ss")
@@ -31,8 +31,8 @@ class DateTime(QChartView):
         axis_y = QValueAxis()
         axis_y.setRange(-5, 5)
 
-        chart.addAxis(self.date_time_axis, Qt.AlignmentFlag.AlignTop)
-        chart.addAxis(axis_y, Qt.AlignmentFlag.AlignLeft)
+        self.chart.addAxis(self.date_time_axis, Qt.AlignmentFlag.AlignTop)
+        self.chart.addAxis(axis_y, Qt.AlignmentFlag.AlignLeft)
 
         self.series.attachAxis(self.date_time_axis)
         self.series.attachAxis(axis_y)
@@ -40,7 +40,7 @@ class DateTime(QChartView):
         self.random_series.attachAxis(self.date_time_axis)
         self.random_series.attachAxis(axis_y)
 
-        self.setChart(chart)
+        self.setChart(self.chart)
 
     @pyqtSlot(int)
     def add_value(self, value):
@@ -54,8 +54,17 @@ class DateTime(QChartView):
     @pyqtSlot(int)
     def add_random_value(self, value):
         current_time = QDateTime.currentDateTime()
-        start_time = current_time.addSecs(-30)
 
         self.random_series.append(current_time.toMSecsSinceEpoch(), value)
 
-        self.date_time_axis.setRange(start_time, current_time)
+        self.date_time_axis.setMax(current_time)
+
+    def mouseReleaseEvent(self, event) -> None:
+        print(event.pos())
+
+        my_point = self.chart.mapToValue(event.pos().toPointF(), self.series)
+
+        self.series.append(my_point)
+
+    # Erstellen Sie eine neue QChartView, welche über ein mouseReleaseEvent()
+    # Werte in eine QSeries aufnimmt und die gedrückten Punkte mit Linien verbindet.
